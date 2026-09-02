@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Keuangan Pokja Adiwiyata</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- =====================================================
+       LOADING
+  ====================================================== -->
+  <div id="loadingScreen" class="loading-screen">
+    <div class="loading-box">
+      <div class="spinner"></div>
+      <h2>Memuat aplikasi...</h2>
+      <p>Menghubungkan ke database keuangan</p>
+    </div>
+  </div>
+
+
+  <!-- =====================================================
+       SIDEBAR
+  ====================================================== -->
+  <aside class="sidebar">
+
+    <div class="brand">
+      <div class="brand-icon">🌱</div>
+
+      <div>
+        <h1>POKJA</h1>
+        <span>ADIWIYATA</span>
+      </div>
+    </div>
+
+    <nav class="nav-menu">
+
+      <button class="nav-item active" data-page="dashboard">
+        <span>🏠</span>
+        <span>Dashboard</span>
+      </button>
+
+      <button class="nav-item" data-page="pemasukan">
+        <span>💰</span>
+        <span>Pemasukan</span>
+      </button>
+
+      <button class="nav-item" data-page="pengeluaran">
+        <span>💸</span>
+        <span>Pengeluaran</span>
+      </button>
+
+      <button class="nav-item" data-page="pegawai">
+        <span>👥</span>
+        <span>Pegawai</span>
+      </button>
+
+      <button class="nav-item" data-page="penggajian">
+        <span>💵</span>
+        <span>Penggajian</span>
+      </button>
+
+      <button class="nav-item" data-page="laporan">
+        <span>📊</span>
+        <span>Laporan</span>
+      </button>
+
+      <button class="nav-item" data-page="kalender">
+        <span>📅</span>
+        <span>Kalender</span>
+      </button>
+
+      <button class="nav-item" data-page="riwayat">
+        <span>🧾</span>
+        <span>Riwayat</span>
+      </button>
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="status-dot"></div>
+      <span id="connectionStatus">Menghubungkan...</span>
+    </div>
+
+  </aside>
+
+
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
+  <main class="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+
+      <div>
+        <button id="mobileMenuBtn" class="mobile-menu-btn">☰</button>
+
+        <div class="top-title">
+          <span id="pageKicker">KEUANGAN</span>
+          <h2 id="pageTitle">Dashboard</h2>
+        </div>
+      </div>
+
+      <div class="top-actions">
+
+        <div class="clock">
+          <span>🕒</span>
+          <span id="currentTime">--:--:--</span>
+        </div>
+
+        <button class="refresh-btn" id="refreshBtn" title="Muat ulang">
+          ↻
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- ===================================================
+         CONTENT
+    ==================================================== -->
+    <div class="content">
+
+
+      <!-- =================================================
+           DASHBOARD
+      ================================================== -->
+      <section id="page-dashboard" class="page active">
+
+        <div class="welcome-card">
+
+          <div>
+            <span class="eyebrow">🌿 SISTEM KEUANGAN</span>
+
+            <h1 id="dashboardAppName">
+              Keuangan Pokja Adiwiyata
+            </h1>
+
+            <p>
+              Pusat pencatatan pemasukan, pengeluaran,
+              pegawai, penggajian dan laporan keuangan.
+            </p>
+          </div>
+
+          <div class="welcome-emoji">
+            🌱
+          </div>
+
+        </div>
+
+
+        <div class="stat-grid">
+
+          <div class="stat-card green">
+            <div class="stat-icon">💰</div>
+            <div>
+              <span>Total Pemasukan</span>
+              <strong id="statPemasukan">Rp0</strong>
+            </div>
+          </div>
+
+          <div class="stat-card orange">
+            <div class="stat-icon">💸</div>
+            <div>
+              <span>Total Pengeluaran</span>
+              <strong id="statPengeluaran">Rp0</strong>
+            </div>
+          </div>
+
+          <div class="stat-card blue">
+            <div class="stat-icon">🌿</div>
+            <div>
+              <span>Kas Pokja</span>
+              <strong id="statKasPokja">Rp0</strong>
+            </div>
+          </div>
+
+          <div class="stat-card purple">
+            <div class="stat-icon">💵</div>
+            <div>
+              <span>Kas Penggajian</span>
+              <strong id="statKasGaji">Rp0</strong>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="dashboard-grid">
+
+          <div class="card balance-card">
+
+            <div class="card-header">
+              <div>
+                <span class="section-label">SALDO</span>
+                <h3>Posisi Kas Saat Ini</h3>
+              </div>
+              <span class="card-icon">🏦</span>
+            </div>
+
+            <div class="balance-list">
+
+              <div class="balance-row">
+                <span>
+                  <i class="dot green-dot"></i>
+                  Saldo Kas Pokja
+                </span>
+
+                <strong id="saldoKasPokja">
+                  Rp0
+                </strong>
+              </div>
+
+              <div class="balance-row">
+                <span>
+                  <i class="dot purple-dot"></i>
+                  Saldo Kas Penggajian
+                </span>
+
+                <strong id="saldoKasPenggajian">
+                  Rp0
+                </strong>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="card allocation-card">
+
+            <div class="card-header">
+
+              <div>
+                <span class="section-label">ALOKASI</span>
+                <h3>Pembagian Pemasukan</h3>
+              </div>
+
+              <span class="card-icon">⚖️</span>
+
+            </div>
+
+            <div class="allocation">
+
+              <div class="allocation-item">
+                <span>Kas Pokja</span>
+                <strong>30%</strong>
+              </div>
+
+              <div class="allocation-bar">
+                <div class="allocation-pokja"></div>
+                <div class="allocation-gaji"></div>
+              </div>
+
+              <div class="allocation-item">
+                <span>Kas Penggajian</span>
+                <strong>70%</strong>
+              </div>
+
+            </div>
+
+            <p class="small-note">
+              Pembagian dihitung otomatis oleh server.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="card quick-card">
+
+          <div class="card-header">
+            <div>
+              <span class="section-label">AKSES CEPAT</span>
+              <h3>Menu Keuangan</h3>
+            </div>
+          </div>
+
+          <div class="quick-actions">
+
+            <button class="quick-btn" data-go="pemasukan">
+              <span>💰</span>
+              <b>Tambah Pemasukan</b>
+              <small>Catat pemasukan baru</small>
+            </button>
+
+            <button class="quick-btn" data-go="pengeluaran">
+              <span>💸</span>
+              <b>Tambah Pengeluaran</b>
+              <small>Catat penggunaan kas</small>
+            </button>
+
+            <button class="quick-btn" data-go="penggajian">
+              <span>💵</span>
+              <b>Penggajian</b>
+              <small>Kelola pembayaran gaji</small>
+            </button>
+
+            <button class="quick-btn" data-go="laporan">
+              <span>📊</span>
+              <b>Laporan</b>
+              <small>Lihat laporan bulanan</small>
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           PEMASUKAN
+      ================================================== -->
+      <section id="page-pemasukan" class="page">
+
+        <div class="page-intro">
+          <div>
+            <span class="eyebrow">💰 TRANSAKSI</span>
+            <h1>Pemasukan</h1>
+            <p>Catat seluruh pemasukan Pokja Adiwiyata.</p>
+          </div>
+        </div>
+
+
+        <div class="form-card card">
+
+          <div class="card-header">
+            <div>
+              <span class="section-label">INPUT DATA</span>
+              <h3>Tambah Pemasukan</h3>
+            </div>
+            <span class="card-icon">➕</span>
+          </div>
+
+          <form id="incomeForm">
+
+            <div class="form-grid">
+
+              <div class="form-group">
+                <label for="incomeDate">Tanggal</label>
+                <input type="date" id="incomeDate" required>
+              </div>
+
+              <div class="form-group">
+                <label for="incomeNominal">Nominal</label>
+
+                <div class="money-input">
+                  <span>Rp</span>
+                  <input
+                    type="number"
+                    id="incomeNominal"
+                    min="1"
+                    step="1"
+                    placeholder="0"
+                    required
+                  >
+                </div>
+
+              </div>
+
+              <div class="form-group">
+
+                <label for="incomeCategory">
+                  Kategori Pemasukan
+                </label>
+
+                <select id="incomeCategory" required>
+
+                  <option value="">
+                    Pilih kategori...
+                  </option>
+
+                  <option value="Penjualan Sampah Botol">
+                    Penjualan Sampah Botol
+                  </option>
+
+                  <option value="Penjualan Pupuk">
+                    Penjualan Pupuk
+                  </option>
+
+                  <option value="Penjualan Barang Kreatif">
+                    Penjualan Barang Kreatif
+                  </option>
+
+                  <option value="Sumbangan">
+                    Sumbangan
+                  </option>
+
+                  <option value="Bantuan Lembaga">
+                    Bantuan Lembaga
+                  </option>
+
+                </select>
+
+              </div>
+
+              <div class="form-group form-full">
+
+                <label for="incomeDescription">
+                  Deskripsi
+                </label>
+
+                <textarea
+                  id="incomeDescription"
+                  rows="3"
+                  maxlength="5000"
+                  placeholder="Keterangan pemasukan..."
+                ></textarea>
+
+                <small>
+                  Maksimal 500 kata.
+                </small>
+
+              </div>
+
+            </div>
+
+
+            <div class="allocation-preview">
+
+              <div>
+                <span>Alokasi Kas Pokja</span>
+                <strong id="previewPokja">Rp0</strong>
+                <small>30%</small>
+              </div>
+
+              <div>
+                <span>Alokasi Kas Penggajian</span>
+                <strong id="previewGaji">Rp0</strong>
+                <small>70%</small>
+              </div>
+
+            </div>
+
+
+            <div class="form-actions">
+
+              <button
+                type="reset"
+                class="btn btn-light"
+                id="resetIncome"
+              >
+                Reset
+              </button>
+
+              <button
+                type="submit"
+                class="btn btn-primary"
+              >
+                💾 Simpan Pemasukan
+              </button>
+
+            </div>
+
+          </form>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div>
+              <span class="section-label">DATA</span>
+              <h3>Riwayat Pemasukan</h3>
+            </div>
+
+            <span class="badge" id="incomeCount">0 data</span>
+
+          </div>
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Tanggal</th>
+                  <th>Kategori</th>
+                  <th>Deskripsi</th>
+                  <th>Nominal</th>
+                  <th>Kas Pokja</th>
+                  <th>Kas Gaji</th>
+                </tr>
+              </thead>
+
+              <tbody id="incomeTableBody">
+                <tr>
+                  <td colspan="6" class="empty">
+                    Belum ada data.
+                  </td>
+                </tr>
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           PENGELUARAN
+      ================================================== -->
+      <section id="page-pengeluaran" class="page">
+
+        <div class="page-intro">
+
+          <div>
+            <span class="eyebrow">💸 TRANSAKSI</span>
+            <h1>Pengeluaran</h1>
+            <p>
+              Pengeluaran hanya menggunakan Kas Pokja.
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="two-column">
+
+          <div class="card">
+
+            <div class="card-header">
+
+              <div>
+                <span class="section-label">INPUT DATA</span>
+                <h3>Tambah Pengeluaran</h3>
+              </div>
+
+              <span class="card-icon">💸</span>
+
+            </div>
+
+            <form id="expenseForm">
+
+              <div class="form-group">
+
+                <label for="expenseDate">
+                  Tanggal
+                </label>
+
+                <input
+                  type="date"
+                  id="expenseDate"
+                  required
+                >
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="expenseNominal">
+                  Nominal
+                </label>
+
+                <div class="money-input">
+
+                  <span>Rp</span>
+
+                  <input
+                    type="number"
+                    id="expenseNominal"
+                    min="1"
+                    step="1"
+                    placeholder="0"
+                    required
+                  >
+
+                </div>
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="expenseDescription">
+                  Deskripsi
+                </label>
+
+                <textarea
+                  id="expenseDescription"
+                  rows="5"
+                  maxlength="5000"
+                  placeholder="Contoh: Pembelian perlengkapan..."
+                  required
+                ></textarea>
+
+                <small>
+                  Maksimal 500 kata.
+                </small>
+
+              </div>
+
+
+              <div class="available-balance">
+
+                <span>Saldo Kas Pokja</span>
+
+                <strong id="expenseBalance">
+                  Rp0
+                </strong>
+
+              </div>
+
+
+              <button
+                type="submit"
+                class="btn btn-primary btn-block"
+              >
+                💾 Simpan Pengeluaran
+              </button>
+
+            </form>
+
+          </div>
+
+
+          <div class="card">
+
+            <div class="card-header">
+
+              <div>
+                <span class="section-label">RIWAYAT</span>
+                <h3>Pengeluaran Terbaru</h3>
+              </div>
+
+            </div>
+
+            <div id="recentExpenses" class="transaction-list">
+              <div class="empty-box">
+                Belum ada pengeluaran.
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div>
+              <span class="section-label">DATA</span>
+              <h3>Seluruh Pengeluaran</h3>
+            </div>
+
+            <span class="badge" id="expenseCount">
+              0 data
+            </span>
+
+          </div>
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Tanggal</th>
+                  <th>Deskripsi</th>
+                  <th>Nominal</th>
+                  <th>Waktu Input</th>
+                </tr>
+              </thead>
+
+              <tbody id="expenseTableBody">
+                <tr>
+                  <td colspan="4" class="empty">
+                    Belum ada data.
+                  </td>
+                </tr>
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           PEGAWAI
+      ================================================== -->
+      <section id="page-pegawai" class="page">
+
+        <div class="page-intro">
+
+          <div>
+            <span class="eyebrow">👥 ORGANISASI</span>
+            <h1>Pegawai Pokja</h1>
+            <p>
+              Kelola anggota dan poin penggajian.
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div>
+              <span class="section-label">TAMBAH ANGGOTA</span>
+              <h3>Tambah Pegawai</h3>
+            </div>
+
+            <span class="card-icon">👤</span>
+
+          </div>
+
+
+          <form id="employeeForm">
+
+            <div class="form-grid">
+
+              <div class="form-group">
+
+                <label for="employeeName">
+                  Nama Lengkap
+                </label>
+
+                <input
+                  type="text"
+                  id="employeeName"
+                  placeholder="Nama lengkap"
+                  required
+                >
+
+              </div>
+
+
+              <div class="form-group">
+
+                <label for="employeePosition">
+                  Jabatan
+                </label>
+
+                <select
+                  id="employeePosition"
+                  required
+                >
+
+                  <option value="">
+                    Pilih jabatan...
+                  </option>
+
+                  <option value="Kepala Pokja">
+                    Kepala Pokja — 5 poin
+                  </option>
+
+                  <option value="Sekretaris Umum">
+                    Sekretaris Umum — 4 poin
+                  </option>
+
+                  <option value="Kabag. Keuangan">
+                    Kabag. Keuangan — 3 poin
+                  </option>
+
+                  <option value="Kabag. Peralatan">
+                    Kabag. Peralatan — 2 poin
+                  </option>
+
+                  <option value="Kabag. Organik">
+                    Kabag. Organik — 2 poin
+                  </option>
+
+                  <option value="Petugas Lapangan">
+                    Petugas Lapangan — 1 poin
+                  </option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+
+            <button
+              type="submit"
+              class="btn btn-primary"
+            >
+              ➕ Tambah Pegawai
+            </button>
+
+          </form>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div>
+              <span class="section-label">DATA ANGGOTA</span>
+              <h3>Daftar Pegawai</h3>
+            </div>
+
+            <span class="badge" id="employeeCount">
+              0 pegawai
+            </span>
+
+          </div>
+
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+
+                <tr>
+                  <th>ID</th>
+                  <th>Nama</th>
+                  <th>Jabatan</th>
+                  <th>Poin</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+
+              </thead>
+
+              <tbody id="employeeTableBody">
+
+                <tr>
+                  <td colspan="6" class="empty">
+                    Belum ada pegawai.
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           PENGGAJIAN
+      ================================================== -->
+      <section id="page-penggajian" class="page">
+
+        <div class="page-intro">
+
+          <div>
+            <span class="eyebrow">💵 PENGGAJIAN</span>
+            <h1>Penggajian</h1>
+            <p>
+              Perhitungan gaji berdasarkan total poin.
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="filter-card card">
+
+          <div class="form-inline">
+
+            <div class="form-group">
+
+              <label for="salaryMonth">
+                Bulan
+              </label>
+
+              <select id="salaryMonth">
+
+                <option value="1">Januari</option>
+                <option value="2">Februari</option>
+                <option value="3">Maret</option>
+                <option value="4">April</option>
+                <option value="5">Mei</option>
+                <option value="6">Juni</option>
+                <option value="7">Juli</option>
+                <option value="8">Agustus</option>
+                <option value="9">September</option>
+                <option value="10">Oktober</option>
+                <option value="11">November</option>
+                <option value="12">Desember</option>
+
+              </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="salaryYear">
+                Tahun
+              </label>
+
+              <input
+                type="number"
+                id="salaryYear"
+                min="2020"
+                max="2100"
+              >
+
+            </div>
+
+
+            <button
+              id="loadSalaryBtn"
+              class="btn btn-primary"
+            >
+              🔄 Tampilkan
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="stat-grid">
+
+          <div class="stat-card green">
+            <div class="stat-icon">💰</div>
+            <div>
+              <span>Alokasi Gaji Bulan Ini</span>
+              <strong id="salaryAllocation">Rp0</strong>
+            </div>
+          </div>
+
+          <div class="stat-card blue">
+            <div class="stat-icon">🎯</div>
+            <div>
+              <span>Total Poin</span>
+              <strong id="salaryTotalPoints">0</strong>
+            </div>
+          </div>
+
+          <div class="stat-card purple">
+            <div class="stat-icon">💎</div>
+            <div>
+              <span>Nilai 1 Poin</span>
+              <strong id="salaryPointValue">Rp0</strong>
+            </div>
+          </div>
+
+          <div class="stat-card orange">
+            <div class="stat-icon">🏦</div>
+            <div>
+              <span>Sisa Kas Penggajian</span>
+              <strong id="salaryBalance">Rp0</strong>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div>
+              <span class="section-label">PERHITUNGAN</span>
+              <h3>Daftar Gaji</h3>
+            </div>
+
+          </div>
+
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+
+                <tr>
+                  <th>Nama</th>
+                  <th>Jabatan</th>
+                  <th>Poin</th>
+                  <th>Nilai/Poin</th>
+                  <th>Gaji</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+
+              </thead>
+
+              <tbody id="salaryTableBody">
+
+                <tr>
+                  <td colspan="7" class="empty">
+                    Pilih periode terlebih dahulu.
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+
+          <div class="salary-summary">
+
+            <div>
+              <span>Total Gaji</span>
+              <strong id="salaryTotal">Rp0</strong>
+            </div>
+
+            <div>
+              <span>Selisih Pembulatan</span>
+              <strong id="salaryDifference">Rp0</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           LAPORAN
+      ================================================== -->
+      <section id="page-laporan" class="page">
+
+        <div class="page-intro">
+
+          <div>
+            <span class="eyebrow">📊 ANALISIS</span>
+            <h1>Laporan Bulanan</h1>
+            <p>
+              Ringkasan transaksi dan posisi keuangan.
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="filter-card card">
+
+          <div class="form-inline">
+
+            <div class="form-group">
+
+              <label for="reportMonth">
+                Bulan
+              </label>
+
+              <select id="reportMonth">
+                <option value="1">Januari</option>
+                <option value="2">Februari</option>
+                <option value="3">Maret</option>
+                <option value="4">April</option>
+                <option value="5">Mei</option>
+                <option value="6">Juni</option>
+                <option value="7">Juli</option>
+                <option value="8">Agustus</option>
+                <option value="9">September</option>
+                <option value="10">Oktober</option>
+                <option value="11">November</option>
+                <option value="12">Desember</option>
+              </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="reportYear">
+                Tahun
+              </label>
+
+              <input
+                type="number"
+                id="reportYear"
+                min="2020"
+                max="2100"
+              >
+
+            </div>
+
+
+            <button
+              id="loadReportBtn"
+              class="btn btn-primary"
+            >
+              📊 Tampilkan Laporan
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="report-grid">
+
+          <div class="report-card">
+            <span>💰 Total Pemasukan</span>
+            <strong id="reportIncome">Rp0</strong>
+          </div>
+
+          <div class="report-card">
+            <span>🌿 Kas Pokja</span>
+            <strong id="reportPokja">Rp0</strong>
+          </div>
+
+          <div class="report-card">
+            <span>💵 Kas Penggajian</span>
+            <strong id="reportSalary">Rp0</strong>
+          </div>
+
+          <div class="report-card">
+            <span>💸 Pengeluaran</span>
+            <strong id="reportExpense">Rp0</strong>
+          </div>
+
+          <div class="report-card">
+            <span>🏦 Saldo Pokja</span>
+            <strong id="reportBalancePokja">Rp0</strong>
+          </div>
+
+          <div class="report-card">
+            <span>💳 Gaji Dibayar</span>
+            <strong id="reportPaidSalary">Rp0</strong>
+          </div>
+
+        </div>
+
+
+        <div class="two-column">
+
+          <div class="card">
+
+            <div class="card-header">
+              <div>
+                <span class="section-label">PEMASUKAN</span>
+                <h3>Berdasarkan Sumber</h3>
+              </div>
+            </div>
+
+            <div id="reportSources" class="source-list">
+              <div class="empty-box">
+                Belum ada laporan.
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="card">
+
+            <div class="card-header">
+              <div>
+                <span class="section-label">PENGELUARAN</span>
+                <h3>Detail Pengeluaran</h3>
+              </div>
+            </div>
+
+            <div id="reportExpenses" class="transaction-list">
+              <div class="empty-box">
+                Belum ada laporan.
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           KALENDER
+      ================================================== -->
+      <section id="page-kalender" class="page">
+
+        <div class="page-intro">
+
+          <div>
+            <span class="eyebrow">📅 TRANSAKSI</span>
+            <h1>Kalender Keuangan</h1>
+            <p>
+              Melihat aktivitas keuangan berdasarkan tanggal.
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="filter-card card">
+
+          <div class="form-inline">
+
+            <div class="form-group">
+
+              <label for="calendarMonth">
+                Bulan
+              </label>
+
+              <select id="calendarMonth">
+                <option value="1">Januari</option>
+                <option value="2">Februari</option>
+                <option value="3">Maret</option>
+                <option value="4">April</option>
+                <option value="5">Mei</option>
+                <option value="6">Juni</option>
+                <option value="7">Juli</option>
+                <option value="8">Agustus</option>
+                <option value="9">September</option>
+                <option value="10">Oktober</option>
+                <option value="11">November</option>
+                <option value="12">Desember</option>
+              </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="calendarYear">
+                Tahun
+              </label>
+
+              <input
+                type="number"
+                id="calendarYear"
+                min="2020"
+                max="2100"
+              >
+
+            </div>
+
+
+            <button
+              id="loadCalendarBtn"
+              class="btn btn-primary"
+            >
+              📅 Tampilkan
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="calendar-layout">
+
+          <div class="calendar-box card">
+
+            <div class="calendar-header">
+
+              <button id="prevMonth" class="calendar-nav">
+                ‹
+              </button>
+
+              <h3 id="calendarTitle">
+                -
+              </h3>
+
+              <button id="nextMonth" class="calendar-nav">
+                ›
+              </button>
+
+            </div>
+
+
+            <div class="calendar-week">
+
+              <span>Min</span>
+              <span>Sen</span>
+              <span>Sel</span>
+              <span>Rab</span>
+              <span>Kam</span>
+              <span>Jum</span>
+              <span>Sab</span>
+
+            </div>
+
+
+            <div id="calendarGrid" class="calendar-grid"></div>
+
+          </div>
+
+
+          <div class="card">
+
+            <div class="card-header">
+
+              <div>
+                <span class="section-label">
+                  AKTIVITAS
+                </span>
+
+                <h3>Transaksi Bulan Ini</h3>
+              </div>
+
+            </div>
+
+            <div id="calendarEvents" class="transaction-list">
+
+              <div class="empty-box">
+                Belum ada transaksi.
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =================================================
+           RIWAYAT
+      ================================================== -->
+      <section id="page-riwayat" class="page">
+
+        <div class="page-intro">
+
+          <div>
+            <span class="eyebrow">🧾 AUDIT</span>
+            <h1>Riwayat Transaksi</h1>
+            <p>
+              Seluruh aktivitas keuangan yang tercatat.
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="card">
+
+          <div class="card-header">
+
+            <div>
+              <span class="section-label">HISTORY</span>
+              <h3>Semua Transaksi</h3>
+            </div>
+
+            <span
+              class="badge"
+              id="historyCount"
+            >
+              0 transaksi
+            </span>
+
+          </div>
+
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+
+                <tr>
+                  <th>Tanggal</th>
+                  <th>Jenis</th>
+                  <th>Kategori</th>
+                  <th>Deskripsi</th>
+                  <th>Nominal</th>
+                  <th>Kas Pokja</th>
+                  <th>Kas Gaji</th>
+                  <th>ID</th>
+                </tr>
+
+              </thead>
+
+              <tbody id="historyTableBody">
+
+                <tr>
+                  <td colspan="8" class="empty">
+                    Belum ada transaksi.
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <!-- =====================================================
+       TOAST
+  ====================================================== -->
+  <div id="toastContainer" class="toast-container"></div>
+
+
+  <!-- =====================================================
+       MODAL
+  ====================================================== -->
+  <div id="modalOverlay" class="modal-overlay">
+
+    <div class="modal">
+
+      <button
+        class="modal-close"
+        id="modalClose"
+      >
+        ×
+      </button>
+
+      <div id="modalContent"></div>
+
+    </div>
+
+  </div>
+
+
+  <script src="script.js"></script>
+
+</body>
+</html>
