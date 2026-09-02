@@ -9,7 +9,7 @@
    KONFIGURASI
 ========================================================= */
 
-const API_URL = "GANTI_DENGAN_URL_WEB_APP_APPS_SCRIPT";
+const API_URL = "https://script.google.com/macros/s/AKfycbw_GiGfyyJkR9M5h-ytugZBcZkj_hZKmVsJoGs-askx_X5BZsCVjg0kVua4crtXhDq4/exec";
 
 const CONFIG = {
 
